@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+
+import os
+import sys
+from transformers import AutoTokenizer
+from auto_gptq import AutoGPTQForCausalLM
+
+# append project directory to path so predict.py can be imported
+sys.path.append('.')
+
+from predict import MODEL_NAME, MODEL_CACHE
+use_triton = True
+
+tokenizer = AutoTokenizer.from_pretrained(
+    MODEL_NAME,
+    use_fast=True
+)
+tokenizer.save_pretrained(MODEL_CACHE)
+
+# model = AutoGPTQForCausalLM.from_quantized(
+#     MODEL_NAME,
+#     model_basename=MODEL_BASENAME,
+#     use_safetensors=True,
+#     trust_remote_code=True,
+#     device="cuda:0",
+#     use_triton=use_triton,
+#     quantize_config=None,
+# )
+# model.save_quantized(MODEL_CACHE, use_safetensors=True)
+
+# Manually run:
+# os.system("git clone --branch gptq-4bit-32g-actorder_True https://huggingface.co/TheBloke/WizardCoder-Python-34B-V1.0-GPTQ cache")
